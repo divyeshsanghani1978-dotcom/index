@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATTAIN - Curated Lifestyle & Tech Store</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom range slider styling */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0d9488;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0d9488;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Top Bar Promotion -->
+    <div class="bg-gradient-to-r from-teal-700 via-teal-800 to-slate-900 text-teal-100 text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
+        <span class="inline-block px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-200 border border-teal-500/30 font-semibold tracking-wide">LIMITED OFFER</span>
+        <span>Use coupon <code class="font-bold text-white bg-black/30 px-1.5 py-0.5 rounded">ATTAIN20</code> for 20% off all orders over $150!</span>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3">
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-teal-600/30 group-hover:scale-105 transition-transform">
+                        A
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-teal-700 to-slate-900 bg-clip-text text-transparent">ATTAIN</span>
+                        <span class="text-[10px] block font-semibold uppercase tracking-widest text-slate-500 -mt-1">Lifestyle & Gear</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Search Bar (Desktop & Tablet) -->
+            <div class="hidden md:flex flex-1 max-w-md relative">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search premium headphones, watches, desks..." 
+                    class="w-full pl-10 pr-10 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-transparent focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition"
+                >
+                <button id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Mobile Search Toggle -->
+                <button id="mobileSearchToggle" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Currency Selector -->
+                <div class="relative hidden sm:block">
+                    <select id="currencySelector" class="appearance-none bg-slate-100 hover:bg-slate-200 text-xs font-semibold px-3 py-2 pr-7 rounded-lg border-0 outline-none cursor-pointer text-slate-700">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="CAD">CAD ($)</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+
+                <!-- Wishlist Button -->
+                <button id="wishlistHeaderBtn" class="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 relative transition">
+                    <i data-lucide="heart" class="w-5 h-5"></i>
+                    <span id="wishlistBadge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center ring-2 ring-white">0</span>
+                </button>
+
+                <!-- Cart Button -->
+                <button id="cartToggleBtn" class="flex items-center gap-2.5 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl font-medium text-sm transition shadow-sm relative group">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform"></i>
+                    <span class="hidden sm:inline">Cart</span>
+                    <span id="cartCountBadge" class="bg-teal-500 text-white px-2 py-0.5 rounded-full text-xs font-bold leading-tight">0</span>
+                    <span id="cartHeaderTotal" class="hidden lg:inline text-xs text-slate-300 border-l border-slate-700 pl-2">$0.00</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile search container dropdown -->
+        <div id="mobileSearchContainer" class="hidden md:hidden px-4 pb-3 pt-1 border-t border-slate-100">
+            <div class="relative">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input 
+                    type="text" 
+                    id="mobileSearchInput" 
+                    placeholder="Search product name or keyword..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-100 text-sm rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                >
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Headline Section -->
+    <section class="bg-gradient-to-b from-white to-slate-100/60 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-xs font-semibold mb-3">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Curated Essentials & Smart Value
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        Attain Premium Gear with <span class="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">Exact Pricing</span>
+                    </h1>
+                    <p class="mt-2 text-sm sm:text-base text-slate-600">
+                        Filter by price boundaries, discover verified discounts, and calculate transparent costs with zero hidden charges.
+                    </p>
+                </div>
+                <!-- Quick Highlights -->
+                <div class="grid grid-cols-3 gap-3 md:gap-4 shrink-0 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="text-center px-2">
+                        <div class="text-teal-600 font-extrabold text-xl sm:text-2xl" id="heroProductCount">12</div>
+                        <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Products</div>
+                    </div>
+                    <div class="text-center px-2 border-x border-slate-100">
+                        <div class="text-teal-600 font-extrabold text-xl sm:text-2xl">Up to 40%</div>
+                        <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Discounts</div>
+                    </div>
+                    <div class="text-center px-2">
+                        <div class="text-teal-600 font-extrabold text-xl sm:text-2xl">&gt; $100</div>
+                        <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Free Ship</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Controls Bar: Category Pills & Sort dropdown -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+            
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 hide-scrollbar" id="categoryPillContainer">
+                <button data-category="all" class="category-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-slate-900 text-white shadow-sm">
+                    All Products
+                </button>
+                <button data-category="audio" class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                    Audio & Sound
+                </button>
+                <button data-category="wearables" class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                    Wearables
+                </button>
+                <button data-category="workspace" class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                    Workspace & Desk
+                </button>
+                <button data-category="lifestyle" class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                    Travel & Carry
+                </button>
+            </div>
+
+            <!-- Sort By Selector & Mobile Filter Trigger -->
+            <div class="flex items-center justify-between lg:justify-end gap-3">
+                <button id="mobileFilterToggleBtn" class="lg:hidden flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 shadow-sm">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-teal-600"></i>
+                    <span>Price & Filters</span>
+                </button>
+
+                <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-600">
+                    <label for="sortBySelect" class="whitespace-nowrap hidden sm:inline">Sort by:</label>
+                    <div class="relative">
+                        <select id="sortBySelect" class="appearance-none bg-white border border-slate-200 hover:border-slate-300 font-semibold px-3 py-2 pr-8 rounded-xl outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer shadow-sm text-xs sm:text-sm">
+                            <option value="featured">Featured Picks</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="discount">Biggest Discount (%)</option>
+                            <option value="rating">Top Customer Rated</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2-Column Layout: Sidebar Filters + Products Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+            
+            <!-- Filters Sidebar -->
+            <aside id="filterSidebar" class="lg:block bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div class="flex items-center gap-2 font-bold text-slate-900 text-sm">
+                        <i data-lucide="filter" class="w-4 h-4 text-teal-600"></i>
+                        <span>Price & Attributes</span>
+                    </div>
+                    <button id="resetFiltersBtn" class="text-xs font-semibold text-teal-600 hover:text-teal-800 transition">
+                        Reset All
+                    </button>
+                </div>
+
+                <!-- Price Range Slider -->
+                <div>
+                    <div class="flex items-center justify-between text-xs font-medium text-slate-700 mb-2">
+                        <span>Max Price Limit</span>
+                        <span id="priceSliderValue" class="text-sm font-bold text-teal-700">$500</span>
+                    </div>
+                    <input 
+                        type="range" 
+                        id="priceRangeSlider" 
+                        min="20" 
+                        max="500" 
+                        step="10" 
+                        value="500" 
+                        class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-teal-600"
+                    >
+                    <div class="flex justify-between text-[11px] text-slate-400 mt-1 font-medium">
+                        <span>$20</span>
+                        <span>$250</span>
+                        <span>$500+</span>
+                    </div>
+                </div>
+
+                <!-- Quick Price Tiers -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Quick Price Brackets</label>
+                    <div class="space-y-1.5">
+                        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer hover:text-slate-900">
+                            <input type="radio" name="priceBracket" value="all" checked class="text-teal-600 focus:ring-teal-500 rounded">
+                            <span>Any Price</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer hover:text-slate-900">
+                            <input type="radio" name="priceBracket" value="0-50" class="text-teal-600 focus:ring-teal-500 rounded">
+                            <span>Under $50 (Budget)</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer hover:text-slate-900">
+                            <input type="radio" name="priceBracket" value="50-150" class="text-teal-600 focus:ring-teal-500 rounded">
+                            <span>$50 to $150 (Mid-Range)</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer hover:text-slate-900">
+                            <input type="radio" name="priceBracket" value="150-300" class="text-teal-600 focus:ring-teal-500 rounded">
+                            <span>$150 to $300 (Premium)</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer hover:text-slate-900">
+                            <input type="radio" name="priceBracket" value="300-9999" class="text-teal-600 focus:ring-teal-500 rounded">
+                            <span>$300 & Above (Flagship)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Deal & Stock Filter Toggles -->
+                <div class="border-t border-slate-100 pt-4 space-y-2.5">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Special Offers</label>
+                    <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                        <input type="checkbox" id="filterOnSale" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300">
+                        <span>On Sale Only</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                        <input type="checkbox" id="filterInStock" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300" checked>
+                        <span>In Stock Only</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                        <input type="checkbox" id="filterFreeShip" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300">
+                        <span>Free Shipping Eligible ($100+)</span>
+                    </label>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="border-t border-slate-100 pt-4">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Customer Rating</label>
+                    <div class="space-y-1">
+                        <button data-min-rating="4" class="rating-filter-btn w-full text-left text-xs py-1.5 px-2 rounded-lg hover:bg-slate-100 flex items-center justify-between text-slate-600">
+                            <span class="flex items-center gap-1 text-amber-500">
+                                ★★★★☆ <span class="text-slate-700 font-semibold ml-1">4.0 & up</span>
+                            </span>
+                        </button>
+                        <button data-min-rating="4.5" class="rating-filter-btn w-full text-left text-xs py-1.5 px-2 rounded-lg hover:bg-slate-100 flex items-center justify-between text-slate-600">
+                            <span class="flex items-center gap-1 text-amber-500">
+                                ★★★★★ <span class="text-slate-700 font-semibold ml-1">4.5 & up</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Filter Summary -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-500">
+                    <span class="font-semibold text-slate-700 block mb-1">Instant Price Guarantee:</span>
+                    All taxes and shipping rates are calculated live in your cart with zero surprises.
+                </div>
+            </aside>
+
+            <!-- Products Grid Section -->
+            <section class="lg:col-span-3">
+                
+                <!-- Results Status Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium">
+                        Showing <span id="visibleProductsCount" class="font-bold text-slate-900">0</span> products matching your criteria
+                    </p>
+                    <span id="priceRangeBadge" class="hidden sm:inline-block text-xs bg-teal-50 text-teal-700 px-2.5 py-1 rounded-full font-semibold border border-teal-200">
+                        Price: Up to $500
+                    </span>
+                </div>
+
+                <!-- Main Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Products will be dynamically rendered here via JavaScript -->
+                </div>
+
+                <!-- Empty State (Hidden by default) -->
+                <div id="noProductsFound" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+                        <i data-lucide="package-search" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800">No items match your price or filter</h3>
+                    <p class="text-sm text-slate-500 max-w-sm mx-auto mt-1 mb-6">
+                        Try adjusting your maximum price slider, clearing search keywords, or selecting another category.
+                    </p>
+                    <button id="emptyResetBtn" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-teal-600/20 transition">
+                        Reset All Filters
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Product Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+            <!-- Close Button -->
+            <button id="closeQuickViewBtn" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Image & Badge Container -->
+                <div class="p-6 bg-slate-100/70 flex flex-col items-center justify-center relative">
+                    <span id="modalDiscountBadge" class="absolute top-4 left-4 bg-rose-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full"></span>
+                    <img id="modalProductImage" src="" alt="Product Preview" class="max-h-64 object-contain transition-transform duration-300 hover:scale-105">
+                    <p class="text-[11px] text-slate-400 mt-4 flex items-center gap-1">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i> Official 2-Year Warranty Included
+                    </p>
+                </div>
+
+                <!-- Details & Options -->
+                <div class="p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="modalCategory" class="text-xs font-semibold uppercase tracking-wider text-teal-600"></span>
+                            <span class="text-slate-300">•</span>
+                            <div class="flex items-center text-amber-500 text-xs">
+                                <span id="modalRatingStars">★ ★ ★ ★ ★</span>
+                                <span id="modalRatingScore" class="font-bold text-slate-700 ml-1"></span>
+                            </div>
+                        </div>
+
+                        <h2 id="modalTitle" class="text-xl font-bold text-slate-900 leading-snug"></h2>
+                        <p id="modalDescription" class="text-xs text-slate-500 mt-2 leading-relaxed"></p>
+
+                        <!-- Price display in modal -->
+                        <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-baseline gap-3">
+                            <span id="modalFinalPrice" class="text-2xl font-black text-slate-900"></span>
+                            <span id="modalOriginalPrice" class="text-sm text-slate-400 line-through"></span>
+                            <span id="modalSavingsAmount" class="text-xs font-bold text-teal-700 ml-auto bg-teal-100/70 px-2 py-0.5 rounded"></span>
+                        </div>
+
+                        <!-- Variant Options (if any) -->
+                        <div class="mt-4">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Color / Edition</label>
+                            <div id="modalVariantContainer" class="flex items-center gap-2">
+                                <!-- Dynamic variant pills -->
+                            </div>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="mt-4 flex items-center gap-3">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Quantity:</span>
+                            <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white">
+                                <button id="modalQtyMinus" class="px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-bold">-</button>
+                                <span id="modalQtyValue" class="px-3 py-1 text-xs font-bold text-slate-900">1</span>
+                                <button id="modalQtyPlus" class="px-2.5 py-1 text-slate-600 hover:bg-slate-100 font-bold">+</button>
+                            </div>
+                            <span id="modalStockStatus" class="text-xs font-semibold text-emerald-600">● In Stock</span>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart Action -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
+                        <button id="modalAddToCartBtn" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition">
+                            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Slide-Over Drawer -->
+    <div id="cartDrawerBackdrop" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden transition-opacity">
+        <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
+            
+            <!-- Drawer Header -->
+            <div class="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-teal-600"></i>
+                    <h2 class="text-base font-bold text-slate-900">Your Cart</h2>
+                    <span id="drawerCartCount" class="bg-teal-100 text-teal-800 text-xs font-bold px-2 py-0.5 rounded-full">0 items</span>
+                </div>
+                <button id="closeCartBtn" class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Free Shipping Progress Tracker -->
+            <div class="px-5 py-3 bg-teal-50 border-b border-teal-100">
+                <div class="flex items-center justify-between text-xs font-semibold text-teal-900 mb-1.5">
+                    <span id="freeShipText">Add $100.00 more for Free Shipping</span>
+                    <span id="freeShipPercent" class="font-bold">0%</span>
+                </div>
+                <div class="w-full bg-teal-200/60 rounded-full h-1.5 overflow-hidden">
+                    <div id="freeShipProgressBar" class="bg-teal-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Cart Items List Container -->
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+                <!-- Cart items rendered here via JS -->
+            </div>
+
+            <!-- Cart Footer: Price Calculation Breakdown -->
+            <div class="p-4 sm:p-5 border-t border-slate-200 bg-slate-50/60 space-y-3">
+                
+                <!-- Coupon Code Entry -->
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="couponInput" 
+                        placeholder="Promo code (e.g. ATTAIN20)" 
+                        class="flex-1 uppercase text-xs font-semibold px-3 py-2 bg-white rounded-lg border border-slate-200 outline-none focus:border-teal-500"
+                    >
+                    <button id="applyCouponBtn" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-lg transition">
+                        Apply
+                    </button>
+                </div>
+                <div id="couponMessage" class="hidden text-[11px] font-medium"></div>
+
+                <!-- Price Breakdown Rows -->
+                <div class="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200/80">
+                    <div class="flex justify-between">
+                        <span>Items Subtotal:</span>
+                        <span id="cartSubtotal" class="font-semibold text-slate-800">$0.00</span>
+                    </div>
+                    <div id="discountRow" class="hidden flex justify-between text-teal-700 font-semibold">
+                        <span>Promo Discount:</span>
+                        <span id="cartDiscount">-$0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Estimated Shipping:</span>
+                        <span id="cartShipping" class="font-semibold text-slate-800">$10.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Estimated Sales Tax (8%):</span>
+                        <span id="cartTax" class="font-semibold text-slate-800">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm sm:text-base font-extrabold text-slate-900 pt-2 border-t border-slate-200">
+                        <span>Final Price:</span>
+                        <span id="cartGrandTotal" class="text-teal-700 text-lg">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Button -->
+                <button id="openCheckoutBtn" class="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-slate-300 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20 transition">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
+                    <span>Secure Checkout</span>
+                </button>
+                <p class="text-[10px] text-center text-slate-400">30-day risk-free returns • 256-bit encrypted checkout</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Flow Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+            <button id="closeCheckoutBtn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Checkout Form Step -->
+            <div id="checkoutStepForm">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">
+                        <i data-lucide="credit-card" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Complete Purchase</h3>
+                        <p class="text-xs text-slate-500">Fast simulated checkout with total price confirmation</p>
+                    </div>
+                </div>
+
+                <form id="checkoutForm" class="space-y-3.5 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Full Name</label>
+                        <input required type="text" placeholder="Alex Morgan" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Email Address (for Receipt)</label>
+                        <input required type="email" placeholder="alex@example.com" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Shipping Address</label>
+                        <input required type="text" placeholder="742 Evergreen Terrace, Springfield" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-teal-500 outline-none">
+                    </div>
+                    
+                    <!-- Simulated Payment -->
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between font-semibold text-slate-700">
+                            <span>Payment Method</span>
+                            <span class="text-teal-600 font-bold flex items-center gap-1">
+                                <i data-lucide="shield" class="w-3.5 h-3.5"></i> Test Sandbox
+                            </span>
+                        </div>
+                        <input type="text" placeholder="Card Number: 4242 •••• •••• 4242" value="4242 •••• •••• 4242" readonly class="w-full px-3 py-2 bg-white rounded border border-slate-200 font-mono text-slate-600">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" value="12/28" readonly class="px-3 py-1.5 bg-white rounded border border-slate-200 font-mono text-slate-600">
+                            <input type="text" value="888" readonly class="px-3 py-1.5 bg-white rounded border border-slate-200 font-mono text-slate-600">
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-lg bg-teal-50 text-teal-800 text-xs flex justify-between font-bold">
+                        <span>Total to be charged:</span>
+                        <span id="checkoutChargeAmount">$0.00</span>
+                    </div>
+
+                    <button type="submit" id="payNowBtn" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-teal-600/20">
+                        Pay & Attain Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Confirmation Success Step -->
+            <div id="checkoutStepSuccess" class="hidden text-center py-6">
+                <div class="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                    <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-900">Order Placed Successfully!</h3>
+                <p class="text-xs text-slate-500 mt-1">Order #ATT-<span id="confirmedOrderId">98412</span> has been confirmed.</p>
+
+                <div class="my-5 p-4 bg-slate-50 rounded-xl border border-slate-100 text-left text-xs space-y-2">
+                    <div class="flex justify-between text-slate-600">
+                        <span>Status:</span>
+                        <span class="font-bold text-emerald-600">Paid & Processing</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Paid Total:</span>
+                        <span id="confirmedTotal" class="font-extrabold text-slate-900 text-sm"></span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Delivery:</span>
+                        <span class="font-semibold">2-3 Business Days</span>
+                    </div>
+                </div>
+
+                <button id="finishCheckoutBtn" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-xl">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Message Container -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-xs font-semibold">
+        <i data-lucide="check-circle" id="toastIcon" class="w-4 h-4 text-teal-400"></i>
+        <span id="toastText">Item updated!</span>
+    </div>
+
+    <script>
+        // Store Catalog with verified price structures & discounts
+        const PRODUCTS = [
+            {
+                id: 1,
+                name: "Aura Noise-Cancelling ANC Studio Headphones",
+                category: "audio",
+                price: 199.00,
+                originalPrice: 249.00,
+                rating: 4.8,
+                reviewsCount: 342,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",
+                description: "Immersive high-fidelity audio with hybrid active noise cancellation, transparency mode, and 40-hour battery life.",
+                inStock: true,
+                badge: "BESTSELLER",
+                variants: ["Matte Black", "Lunar White", "Midnight Navy"]
+            },
+            {
+                id: 2,
+                name: "Attain Chrono Smart Fitness Watch 2",
+                category: "wearables",
+                price: 149.00,
+                originalPrice: 179.00,
+                rating: 4.7,
+                reviewsCount: 189,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",
+                description: "Always-on AMOLED display, heart rate tracking, GPS route tracking, and 7-day battery life with titanium bezel.",
+                inStock: true,
+                badge: "HOT DEAL",
+                variants: ["Graphite", "Silver Frost", "Rose Gold"]
+            },
+            {
+                id: 3,
+                name: "AeroGlide Ergonomic Wireless Mouse",
+                category: "workspace",
+                price: 49.00,
+                originalPrice: 65.00,
+                rating: 4.6,
+                reviewsCount: 94,
+                image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=600&q=80",
+                description: "Precision 4000 DPI laser sensor with hyper-fast scroll wheel and ergonomic palm-contour design.",
+                inStock: true,
+                badge: "SALE",
+                variants: ["Charcoal", "Off-White"]
+            },
+            {
+                id: 4,
+                name: "Zenith Solid Walnut Desk Organizer",
+                category: "workspace",
+                price: 39.00,
+                originalPrice: 39.00,
+                rating: 4.5,
+                reviewsCount: 68,
+                image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=600&q=80",
+                description: "Crafted from sustainable American walnut with magnetic catch channels for pens, phone, and peripherals.",
+                inStock: true,
+                badge: "MINIMALIST",
+                variants: ["Walnut", "Oak"]
+            },
+            {
+                id: 5,
+                name: "Nomad Water-Resistant Commuter Backpack",
+                category: "lifestyle",
+                price: 119.00,
+                originalPrice: 159.00,
+                rating: 4.9,
+                reviewsCount: 220,
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80",
+                description: "Cordura ballistic nylon, dedicated 16-inch laptop pocket, hidden passport compartment, and luggage strap.",
+                inStock: true,
+                badge: "STAFF PICK",
+                variants: ["Storm Grey", "Obsidian Black"]
+            },
+            {
+                id: 6,
+                name: "Pulse Mini 360° Waterproof Bluetooth Speaker",
+                category: "audio",
+                price: 45.00,
+                originalPrice: 59.00,
+                rating: 4.4,
+                reviewsCount: 112,
+                image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&q=80",
+                description: "IPX7 waterproof rating with deep punchy bass, 15-hour playback, and dual speaker stereo pairing.",
+                inStock: true,
+                badge: "UNDER $50",
+                variants: ["Forest Green", "Stealth Black", "Sun Orange"]
+            },
+            {
+                id: 7,
+                name: "Horizon Mechanical Keyboard - Low Profile",
+                category: "workspace",
+                price: 139.00,
+                originalPrice: 169.00,
+                rating: 4.8,
+                reviewsCount: 310,
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80",
+                description: "Gateron low profile switches with RGB backlighting, Bluetooth 5.1 multi-device switching, and CNC aluminum top.",
+                inStock: true,
+                badge: "POPULAR",
+                variants: ["Red Switches (Linear)", "Brown Switches (Tactile)"]
+            },
+            {
+                id: 8,
+                name: "Verve Titanium Ceramic Hybrid Watch",
+                category: "wearables",
+                price: 320.00,
+                originalPrice: 380.00,
+                rating: 4.9,
+                reviewsCount: 76,
+                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600&q=80",
+                description: "Luxury minimalist sapphire crystal watch with Japanese automatic movement and aerospace titanium case.",
+                inStock: true,
+                badge: "PREMIUM",
+                variants: ["Matte Titanium", "Polished Black"]
+            },
+            {
+                id: 9,
+                name: "Orbit ANC True Wireless Earbuds",
+                category: "audio",
+                price: 89.00,
+                originalPrice: 120.00,
+                rating: 4.6,
+                reviewsCount: 154,
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80",
+                description: "Compact wireless charging case, ENC quad microphones for ultra-clear calls, and IPX5 sweat resistance.",
+                inStock: true,
+                badge: "25% OFF",
+                variants: ["Pure White", "Space Black"]
+            },
+            {
+                id: 10,
+                name: "Equinox Insulated Thermal Flask (750ml)",
+                category: "lifestyle",
+                price: 28.00,
+                originalPrice: 35.00,
+                rating: 4.7,
+                reviewsCount: 88,
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80",
+                description: "Double-wall vacuum insulation keeps cold for 24h and hot for 12h. Food-grade 18/8 stainless steel.",
+                inStock: true,
+                badge: "ECO",
+                variants: ["Matte Sage", "Charcoal", "Terracotta"]
+            },
+            {
+                id: 11,
+                name: "Lumina ScreenBar Monitor Light Bar",
+                category: "workspace",
+                price: 65.00,
+                originalPrice: 85.00,
+                rating: 4.7,
+                reviewsCount: 204,
+                image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80",
+                description: "Asymmetrical optical design eliminates screen glare, with stepless color temperature and brightness adjustments.",
+                inStock: true,
+                badge: "DESK UPGRADE",
+                variants: ["Anodized Silver", "Space Grey"]
+            },
+            {
+                id: 12,
+                name: "Apex Ultra-Fast 140W GaN Desktop Charger",
+                category: "workspace",
+                price: 79.00,
+                originalPrice: 99.00,
+                rating: 4.9,
+                reviewsCount: 142,
+                image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&q=80",
+                description: "4-in-1 Power Delivery 3.1 fast charger capable of charging high-power laptops, phones, and tablets simultaneously.",
+                inStock: true,
+                badge: "GAN III TECH",
+                variants: ["Matte White", "Matte Black"]
+            }
+        ];
+
+        // Application State
+        const state = {
+            currency: 'USD',
+            currencyRates: { USD: 1, EUR: 0.92, GBP: 0.79, CAD: 1.36 },
+            currencySymbols: { USD: '$', EUR: '€', GBP: '£', CAD: 'CA$' },
+            currentCategory: 'all',
+            maxPrice: 500,
+            priceBracket: 'all',
+            searchQuery: '',
+            sortBy: 'featured',
+            filters: {
+                onSale: false,
+                inStock: true,
+                freeShip: false,
+                minRating: 0
+            },
+            cart: [],
+            appliedCoupon: null,
+            wishlist: new Set(),
+            quickViewProduct: null,
+            quickViewSelectedVariant: null,
+            quickViewQty: 1
+        };
+
+        // Format Price Helper
+        function formatPrice(usdAmount) {
+            const rate = state.currencyRates[state.currency] || 1;
+            const symbol = state.currencySymbols[state.currency] || '$';
+            const converted = usdAmount * rate;
+            return `${symbol}${converted.toFixed(2)}`;
+        }
+
+        // Filter and Sort Engine
+        function getFilteredProducts() {
+            return PRODUCTS.filter(product => {
+                // Category Filter
+                if (state.currentCategory !== 'all' && product.category !== state.currentCategory) {
+                    return false;
+                }
+
+                // Price Slider Limit
+                if (product.price > state.maxPrice) {
+                    return false;
+                }
+
+                // Price Bracket Radio Selection
+                if (state.priceBracket !== 'all') {
+                    const [min, max] = state.priceBracket.split('-').map(Number);
+                    if (product.price < min || product.price > max) {
+                        return false;
+                    }
+                }
+
+                // Search Query
+                if (state.searchQuery.trim() !== '') {
+                    const query = state.searchQuery.toLowerCase();
+                    const matchName = product.name.toLowerCase().includes(query);
+                    const matchDesc = product.description.toLowerCase().includes(query);
+                    const matchCat = product.category.toLowerCase().includes(query);
+                    if (!matchName && !matchDesc && !matchCat) return false;
+                }
+
+                // On Sale Filter
+                if (state.filters.onSale && product.price >= product.originalPrice) {
+                    return false;
+                }
+
+                // In Stock Filter
+                if (state.filters.inStock && !product.inStock) {
+                    return false;
+                }
+
+                // Free Shipping Eligibility (Price >= $100)
+                if (state.filters.freeShip && product.price < 100) {
+                    return false;
+                }
+
+                // Customer Rating Filter
+                if (state.filters.minRating > 0 && product.rating < state.filters.minRating) {
+                    return false;
+                }
+
+                return true;
+            }).sort((a, b) => {
+                // Sorting logic
+                if (state.sortBy === 'price-asc') return a.price - b.price;
+                if (state.sortBy === 'price-desc') return b.price - a.price;
+                if (state.sortBy === 'rating') return b.rating - a.rating;
+                if (state.sortBy === 'discount') {
+                    const discountA = ((a.originalPrice - a.price) / a.originalPrice);
+                    const discountB = ((b.originalPrice - b.price) / b.originalPrice);
+                    return discountB - discountA;
+                }
+                return a.id - b.id; // Default featured
+            });
+        }
+
+        // Render Product Cards
+        function renderProducts() {
+            const filtered = getFilteredProducts();
+            const grid = document.getElementById('productsGrid');
+            const noProductsFound = document.getElementById('noProductsFound');
+            const countElem = document.getElementById('visibleProductsCount');
+
+            countElem.innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noProductsFound.classList.remove('hidden');
+                return;
+            }
+
+            noProductsFound.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(product => {
+                const isDiscounted = product.originalPrice > product.price;
+                const discountPercent = isDiscounted ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+                const isWishlisted = state.wishlist.has(product.id);
+
+                return `
+                    <div class="group bg-white rounded-2xl border border-slate-200 hover:border-teal-500/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden relative">
+                        
+                        <!-- Badges & Wishlist -->
+                        <div class="absolute top-3 left-3 z-10 flex flex-col gap-1 items-start">
+                            ${product.badge ? `
+                                <span class="bg-slate-900/90 backdrop-blur text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider">
+                                    ${product.badge}
+                                </span>
+                            ` : ''}
+                            ${isDiscounted ? `
+                                <span class="bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm">
+                                    SAVE ${discountPercent}%
+                                </span>
+                            ` : ''}
+                        </div>
+
+                        <button 
+                            onclick="toggleWishlist(${product.id})" 
+                            class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-400 hover:text-rose-500 flex items-center justify-center transition shadow-sm"
+                            title="Add to Wishlist"
+                        >
+                            <i data-lucide="heart" class="w-4 h-4 ${isWishlisted ? 'text-rose-500 fill-rose-500' : ''}"></i>
+                        </button>
+
+                        <!-- Product Image Area -->
+                        <div class="relative bg-slate-100/70 p-6 flex items-center justify-center aspect-square overflow-hidden cursor-pointer" onclick="openQuickView(${product.id})">
+                            <img 
+                                src="${product.image}" 
+                                alt="${product.name}" 
+                                class="object-cover w-full h-full rounded-xl group-hover:scale-105 transition-transform duration-500"
+                                loading="lazy"
+                            >
+                            <!-- Hover Quick View Button -->
+                            <div class="absolute inset-0 bg-slate-950/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                                <span class="bg-white text-slate-900 px-4 py-2 rounded-xl text-xs font-bold shadow-md hover:bg-teal-600 hover:text-white transition">
+                                    Quick Overview
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <!-- Rating and Category -->
+                                <div class="flex items-center justify-between text-xs text-slate-500 mb-1.5">
+                                    <span class="font-semibold uppercase tracking-wider text-teal-700 text-[10px]">${product.category}</span>
+                                    <div class="flex items-center gap-1 text-amber-500">
+                                        <span>★</span>
+                                        <span class="font-bold text-slate-700">${product.rating}</span>
+                                        <span class="text-slate-400">(${product.reviewsCount})</span>
+                                    </div>
+                                </div>
+
+                                <!-- Title -->
+                                <h3 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 hover:text-teal-700 cursor-pointer transition" onclick="openQuickView(${product.id})">
+                                    ${product.name}
+                                </h3>
+                            </div>
+
+                            <!-- Pricing and Actions -->
+                            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <div class="flex items-baseline gap-1.5">
+                                        <span class="text-lg font-black text-slate-900">${formatPrice(product.price)}</span>
+                                        ${isDiscounted ? `<span class="text-xs text-slate-400 line-through">${formatPrice(product.originalPrice)}</span>` : ''}
+                                    </div>
+                                    <div class="text-[10px] text-slate-500">
+                                        ${product.price >= 100 ? '<span class="text-emerald-600 font-semibold">✓ Free Delivery</span>' : '+ Standard Shipping'}
+                                    </div>
+                                </div>
+
+                                <button 
+                                    onclick="quickAddToCart(${product.id})" 
+                                    class="bg-slate-900 hover:bg-teal-600 text-white p-2.5 rounded-xl transition-all shadow-sm hover:scale-105 active:scale-95"
+                                    title="Add to Cart"
+                                >
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // Cart Calculations & Management
+        function recalculateTotals() {
+            const subtotal = state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            
+            // Shipping rule: Free if subtotal >= 100, else $10 flat
+            const shipping = (subtotal >= 100 || subtotal === 0) ? 0 : 10;
+            
+            // Promotional Discount calculation
+            let discount = 0;
+            if (state.appliedCoupon === 'ATTAIN20') {
+                if (subtotal >= 150) {
+                    discount = subtotal * 0.20;
+                }
+            } else if (state.appliedCoupon === 'FREESHIP') {
+                discount = shipping; // waives shipping
+            }
+
+            // Sales tax (8%) on discounted subtotal
+            const taxableAmount = Math.max(0, subtotal - discount);
+            const tax = taxableAmount * 0.08;
+            const grandTotal = Math.max(0, taxableAmount + shipping + tax);
+
+            // Update UI Counters and Badges
+            const totalCount = state.cart.reduce((acc, item) => acc + item.quantity, 0);
+            document.getElementById('cartCountBadge').innerText = totalCount;
+            document.getElementById('drawerCartCount').innerText = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
+            document.getElementById('cartHeaderTotal').innerText = formatPrice(subtotal);
+
+            // Update Breakdown in Drawer
+            document.getElementById('cartSubtotal').innerText = formatPrice(subtotal);
+            document.getElementById('cartShipping').innerText = shipping === 0 ? (subtotal === 0 ? formatPrice(0) : 'FREE') : formatPrice(shipping);
+            document.getElementById('cartTax').innerText = formatPrice(tax);
+            document.getElementById('cartGrandTotal').innerText = formatPrice(grandTotal);
+
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cartDiscount').innerText = `-${formatPrice(discount)}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            // Free shipping threshold indicator ($100)
+            const freeShipThreshold = 100;
+            const freeShipProgressBar = document.getElementById('freeShipProgressBar');
+            const freeShipText = document.getElementById('freeShipText');
+            const freeShipPercent = document.getElementById('freeShipPercent');
+
+            if (subtotal >= freeShipThreshold) {
+                freeShipProgressBar.style.width = '100%';
+                freeShipText.innerHTML = '<span class="text-emerald-700 font-bold">🎉 You unlocked FREE standard shipping!</span>';
+                freeShipPercent.innerText = '100%';
+            } else {
+                const diff = freeShipThreshold - subtotal;
+                const pct = Math.min(100, Math.round((subtotal / freeShipThreshold) * 100));
+                freeShipProgressBar.style.width = `${pct}%`;
+                freeShipText.innerText = `Add ${formatPrice(diff)} more to attain Free Shipping`;
+                freeShipPercent.innerText = `${pct}%`;
+            }
+
+            // Enable or disable checkout button
+            const openCheckoutBtn = document.getElementById('openCheckoutBtn');
+            openCheckoutBtn.disabled = state.cart.length === 0;
+
+            // Update checkout modal total charge if open
+            document.getElementById('checkoutChargeAmount').innerText = formatPrice(grandTotal);
+
+            renderCartDrawerItems();
+        }
+
+        function renderCartDrawerItems() {
+            const list = document.getElementById('cartItemsList');
+            if (state.cart.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-16 text-slate-400">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto stroke-1 mb-2"></i>
+                        <p class="text-sm font-semibold text-slate-600">Your shopping cart is empty</p>
+                        <p class="text-xs text-slate-400 mt-1">Explore our products and filter for your favorite prices.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            list.innerHTML = state.cart.map(item => `
+                <div class="flex gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm relative">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg bg-slate-100 shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold text-slate-900 truncate">${item.name}</h4>
+                        <div class="text-[11px] text-slate-500 mt-0.5">
+                            Edition: <span class="font-medium text-slate-700">${item.variant}</span>
+                        </div>
+                        <div class="text-xs font-black text-teal-700 mt-1">
+                            ${formatPrice(item.price)}
+                        </div>
+
+                        <!-- Quantity control -->
+                        <div class="flex items-center gap-2 mt-2">
+                            <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50 text-xs">
+                                <button onclick="updateCartQuantity(${item.id}, '${item.variant}', -1)" class="px-2 py-0.5 hover:bg-slate-200 font-bold">-</button>
+                                <span class="px-2 font-bold text-slate-800">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, '${item.variant}', 1)" class="px-2 py-0.5 hover:bg-slate-200 font-bold">+</button>
+                            </div>
+                            <span class="text-[10px] text-slate-400">= ${formatPrice(item.price * item.quantity)}</span>
+                        </div>
+                    </div>
+                    <button 
+                        onclick="removeFromCart(${item.id}, '${item.variant}')" 
+                        class="text-slate-400 hover:text-rose-500 p-1 self-start transition"
+                        title="Remove"
+                    >
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function addToCart(product, variant, qty = 1) {
+            const existing = state.cart.find(i => i.id === product.id && i.variant === variant);
+            if (existing) {
+                existing.quantity += qty;
+            } else {
+                state.cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    variant: variant || product.variants[0],
+                    quantity: qty
+                });
+            }
+            recalculateTotals();
+            showToast(`Added "${product.name}" to cart!`);
+        }
+
+        function quickAddToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+            addToCart(product, product.variants[0], 1);
+        }
+
+        function updateCartQuantity(productId, variant, delta) {
+            const item = state.cart.find(i => i.id === productId && i.variant === variant);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(productId, variant);
+            } else {
+                recalculateTotals();
+            }
+        }
+
+        function removeFromCart(productId, variant) {
+            state.cart = state.cart.filter(i => !(i.id === productId && i.variant === variant));
+            recalculateTotals();
+            showToast("Item removed from cart");
+        }
+
+        // Wishlist Toggle
+        function toggleWishlist(productId) {
+            if (state.wishlist.has(productId)) {
+                state.wishlist.delete(productId);
+                showToast("Removed from wishlist");
+            } else {
+                state.wishlist.add(productId);
+                showToast("Added to your wishlist!");
+            }
+            const badge = document.getElementById('wishlistBadge');
+            badge.innerText = state.wishlist.size;
+            if (state.wishlist.size > 0) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+            renderProducts();
+        }
+
+        // Quick View Modal Opener
+        function openQuickView(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            state.quickViewProduct = product;
+            state.quickViewSelectedVariant = product.variants[0];
+            state.quickViewQty = 1;
+
+            document.getElementById('modalTitle').innerText = product.name;
+            document.getElementById('modalDescription').innerText = product.description;
+            document.getElementById('modalCategory').innerText = product.category;
+            document.getElementById('modalRatingScore').innerText = `${product.rating} (${product.reviewsCount} reviews)`;
+            document.getElementById('modalProductImage').src = product.image;
+
+            document.getElementById('modalFinalPrice').innerText = formatPrice(product.price);
+            const origElem = document.getElementById('modalOriginalPrice');
+            const savingsElem = document.getElementById('modalSavingsAmount');
+            const discountBadge = document.getElementById('modalDiscountBadge');
+
+            if (product.originalPrice > product.price) {
+                const diff = product.originalPrice - product.price;
+                origElem.innerText = formatPrice(product.originalPrice);
+                origElem.classList.remove('hidden');
+                savingsElem.innerText = `You save ${formatPrice(diff)}`;
+                savingsElem.classList.remove('hidden');
+                discountBadge.innerText = `-${Math.round((diff / product.originalPrice) * 100)}% OFF`;
+                discountBadge.classList.remove('hidden');
+            } else {
+                origElem.classList.add('hidden');
+                savingsElem.classList.add('hidden');
+                discountBadge.classList.add('hidden');
+            }
+
+            document.getElementById('modalQtyValue').innerText = '1';
+
+            // Render Variant Options
+            const varContainer = document.getElementById('modalVariantContainer');
+            varContainer.innerHTML = product.variants.map((v, idx) => `
+                <button 
+                    onclick="selectModalVariant('${v}')" 
+                    class="variant-btn text-xs px-3 py-1.5 rounded-lg border font-medium transition ${idx === 0 ? 'border-teal-600 bg-teal-50 text-teal-900 font-bold' : 'border-slate-200 text-slate-700 hover:border-slate-300'}"
+                    data-variant="${v}"
+                >
+                    ${v}
+                </button>
+            `).join('');
+
+            document.getElementById('quickViewModal').classList.remove('hidden');
+        }
+
+        function selectModalVariant(variant) {
+            state.quickViewSelectedVariant = variant;
+            document.querySelectorAll('.variant-btn').forEach(btn => {
+                if (btn.getAttribute('data-variant') === variant) {
+                    btn.className = 'variant-btn text-xs px-3 py-1.5 rounded-lg border font-bold border-teal-600 bg-teal-50 text-teal-900';
+                } else {
+                    btn.className = 'variant-btn text-xs px-3 py-1.5 rounded-lg border font-medium border-slate-200 text-slate-700 hover:border-slate-300';
+                }
+            });
+        }
+
+        function closeQuickView() {
+            document.getElementById('quickViewModal').classList.add('hidden');
+            state.quickViewProduct = null;
+        }
+
+        // Cart Drawer Toggles
+        function toggleCartDrawer(open) {
+            const backdrop = document.getElementById('cartDrawerBackdrop');
+            const drawer = document.getElementById('cartDrawer');
+            if (open) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    drawer.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    backdrop.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Toast Messages
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastText').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2600);
+        }
+
+        // Initialize Event Listeners on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Render Initial catalog
+            renderProducts();
+            recalculateTotals();
+
+            // Search inputs (Desktop & Mobile)
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+
+            function handleSearch(val) {
+                state.searchQuery = val;
+                if (val.length > 0) {
+                    clearSearchBtn.classList.remove('hidden');
+                } else {
+                    clearSearchBtn.classList.add('hidden');
+                }
+                renderProducts();
+            }
+
+            searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+            mobileSearchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                mobileSearchInput.value = '';
+                handleSearch('');
+            });
+
+            // Mobile Search Toggle
+            document.getElementById('mobileSearchToggle').addEventListener('click', () => {
+                const container = document.getElementById('mobileSearchContainer');
+                container.classList.toggle('hidden');
+                if (!container.classList.contains('hidden')) {
+                    mobileSearchInput.focus();
+                }
+            });
+
+            // Currency Selector
+            document.getElementById('currencySelector').addEventListener('change', (e) => {
+                state.currency = e.target.value;
+                document.getElementById('priceSliderValue').innerText = formatPrice(state.maxPrice);
+                renderProducts();
+                recalculateTotals();
+                if (state.quickViewProduct) {
+                    openQuickView(state.quickViewProduct.id);
+                }
+            });
+
+            // Category Filter Buttons
+            document.querySelectorAll('.category-pill').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.category-pill').forEach(b => {
+                        b.classList.remove('bg-slate-900', 'text-white', 'shadow-sm');
+                        b.classList.add('bg-white', 'text-slate-700', 'hover:bg-slate-100', 'border', 'border-slate-200');
+                    });
+                    const target = e.currentTarget;
+                    target.classList.add('bg-slate-900', 'text-white', 'shadow-sm');
+                    target.classList.remove('bg-white', 'text-slate-700', 'border');
+
+                    state.currentCategory = target.getAttribute('data-category');
+                    renderProducts();
+                });
+            });
+
+            // Price Range Slider
+            const priceSlider = document.getElementById('priceRangeSlider');
+            const priceSliderValue = document.getElementById('priceSliderValue');
+            const priceRangeBadge = document.getElementById('priceRangeBadge');
+
+            priceSlider.addEventListener('input', (e) => {
+                const val = Number(e.target.value);
+                state.maxPrice = val;
+                priceSliderValue.innerText = formatPrice(val);
+                priceRangeBadge.innerText = `Max Price: ${formatPrice(val)}`;
+                priceRangeBadge.classList.remove('hidden');
+                renderProducts();
+            });
+
+            // Price Bracket Radios
+            document.querySelectorAll('input[name="priceBracket"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    state.priceBracket = e.target.value;
+                    renderProducts();
+                });
+            });
+
+            // Sort Dropdown
+            document.getElementById('sortBySelect').addEventListener('change', (e) => {
+                state.sortBy = e.target.value;
+                renderProducts();
+            });
+
+            // Checkbox Attributes
+            document.getElementById('filterOnSale').addEventListener('change', (e) => {
+                state.filters.onSale = e.target.checked;
+                renderProducts();
+            });
+            document.getElementById('filterInStock').addEventListener('change', (e) => {
+                state.filters.inStock = e.target.checked;
+                renderProducts();
+            });
+            document.getElementById('filterFreeShip').addEventListener('change', (e) => {
+                state.filters.freeShip = e.target.checked;
+                renderProducts();
+            });
+
+            // Rating Filter Buttons
+            document.querySelectorAll('.rating-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const min = parseFloat(btn.getAttribute('data-min-rating'));
+                    if (state.filters.minRating === min) {
+                        state.filters.minRating = 0;
+                        btn.classList.remove('bg-teal-50', 'text-teal-900', 'font-bold');
+                    } else {
+                        document.querySelectorAll('.rating-filter-btn').forEach(b => b.classList.remove('bg-teal-50', 'text-teal-900', 'font-bold'));
+                        state.filters.minRating = min;
+                        btn.classList.add('bg-teal-50', 'text-teal-900', 'font-bold');
+                    }
+                    renderProducts();
+                });
+            });
+
+            // Reset Filters Handler
+            function resetAllFilters() {
+                state.maxPrice = 500;
+                state.priceBracket = 'all';
+                state.searchQuery = '';
+                state.currentCategory = 'all';
+                state.sortBy = 'featured';
+                state.filters.onSale = false;
+                state.filters.inStock = true;
+                state.filters.freeShip = false;
+                state.filters.minRating = 0;
+
+                priceSlider.value = 500;
+                priceSliderValue.innerText = formatPrice(500);
+                priceRangeBadge.classList.add('hidden');
+                searchInput.value = '';
+                mobileSearchInput.value = '';
+                document.getElementById('sortBySelect').value = 'featured';
+                document.getElementById('filterOnSale').checked = false;
+                document.getElementById('filterInStock').checked = true;
+                document.getElementById('filterFreeShip').checked = false;
+                document.querySelector('input[name="priceBracket"][value="all"]').checked = true;
+
+                document.querySelectorAll('.category-pill').forEach(b => {
+                    if (b.getAttribute('data-category') === 'all') {
+                        b.classList.add('bg-slate-900', 'text-white');
+                        b.classList.remove('bg-white', 'text-slate-700');
+                    } else {
+                        b.classList.remove('bg-slate-900', 'text-white');
+                        b.classList.add('bg-white', 'text-slate-700');
+                    }
+                });
+
+                document.querySelectorAll('.rating-filter-btn').forEach(b => b.classList.remove('bg-teal-50', 'text-teal-900', 'font-bold'));
+
+                renderProducts();
+                showToast("Filters restored to default");
+            }
+
+            document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+            document.getElementById('emptyResetBtn').addEventListener('click', resetAllFilters);
+
+            // Modal Quantity Controls
+            document.getElementById('modalQtyPlus').addEventListener('click', () => {
+                state.quickViewQty++;
+                document.getElementById('modalQtyValue').innerText = state.quickViewQty;
+            });
+            document.getElementById('modalQtyMinus').addEventListener('click', () => {
+                if (state.quickViewQty > 1) {
+                    state.quickViewQty--;
+                    document.getElementById('modalQtyValue').innerText = state.quickViewQty;
+                }
+            });
+
+            // Modal Add to Cart
+            document.getElementById('modalAddToCartBtn').addEventListener('click', () => {
+                if (state.quickViewProduct) {
+                    addToCart(state.quickViewProduct, state.quickViewSelectedVariant, state.quickViewQty);
+                    closeQuickView();
+                    toggleCartDrawer(true);
+                }
+            });
+
+            document.getElementById('closeQuickViewBtn').addEventListener('click', closeQuickView);
+
+            // Cart Drawer open/close
+            document.getElementById('cartToggleBtn').addEventListener('click', () => toggleCartDrawer(true));
+            document.getElementById('closeCartBtn').addEventListener('click', () => toggleCartDrawer(false));
+            document.getElementById('cartDrawerBackdrop').addEventListener('click', (e) => {
+                if (e.target.id === 'cartDrawerBackdrop') toggleCartDrawer(false);
+            });
+
+            // Promo Code Apply
+            document.getElementById('applyCouponBtn').addEventListener('click', () => {
+                const code = document.getElementById('couponInput').value.trim().toUpperCase();
+                const msg = document.getElementById('couponMessage');
+                msg.classList.remove('hidden', 'text-emerald-600', 'text-rose-500');
+
+                if (code === 'ATTAIN20') {
+                    const subtotal = state.cart.reduce((a, b) => a + (b.price * b.quantity), 0);
+                    if (subtotal >= 150) {
+                        state.appliedCoupon = 'ATTAIN20';
+                        msg.innerText = '✓ Promo ATTAIN20 applied! 20% discount granted.';
+                        msg.classList.add('text-emerald-600');
+                    } else {
+                        msg.innerText = 'Promo ATTAIN20 requires a minimum subtotal of $150.';
+                        msg.classList.add('text-rose-500');
+                    }
+                } else if (code === 'FREESHIP') {
+                    state.appliedCoupon = 'FREESHIP';
+                    msg.innerText = '✓ Promo FREESHIP applied! Shipping waived.';
+                    msg.classList.add('text-emerald-600');
+                } else {
+                    msg.innerText = 'Invalid promo coupon code.';
+                    msg.classList.add('text-rose-500');
+                }
+                recalculateTotals();
+            });
+
+            // Checkout Modal Interactions
+            const checkoutModal = document.getElementById('checkoutModal');
+            document.getElementById('openCheckoutBtn').addEventListener('click', () => {
+                if (state.cart.length === 0) return;
+                toggleCartDrawer(false);
+                document.getElementById('checkoutStepForm').classList.remove('hidden');
+                document.getElementById('checkoutStepSuccess').classList.add('hidden');
+                checkoutModal.classList.remove('hidden');
+            });
+
+            document.getElementById('closeCheckoutBtn').addEventListener('click', () => {
+                checkoutModal.classList.add('hidden');
+            });
+
+            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const payBtn = document.getElementById('payNowBtn');
+                payBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⟳</span> Authorizing Payment...';
+                payBtn.disabled = true;
+
+                setTimeout(() => {
+                    payBtn.innerHTML = 'Pay & Attain Order';
+                    payBtn.disabled = false;
+                    
+                    // Show confirmation
+                    document.getElementById('checkoutStepForm').classList.add('hidden');
+                    document.getElementById('checkoutStepSuccess').classList.remove('hidden');
+                    document.getElementById('confirmedOrderId').innerText = Math.floor(10000 + Math.random() * 90000);
+                    document.getElementById('confirmedTotal').innerText = document.getElementById('cartGrandTotal').innerText;
+
+                    // Clear cart
+                    state.cart = [];
+                    state.appliedCoupon = null;
+                    document.getElementById('couponInput').value = '';
+                    document.getElementById('couponMessage').classList.add('hidden');
+                    recalculateTotals();
+                }, 1200);
+            });
+
+            document.getElementById('finishCheckoutBtn').addEventListener('click', () => {
+                checkoutModal.classList.add('hidden');
+            });
+
+            // Wishlist icon header alert
+            document.getElementById('wishlistHeaderBtn').addEventListener('click', () => {
+                if (state.wishlist.size === 0) {
+                    showToast("Your wishlist is currently empty! Click the heart on any card.");
+                } else {
+                    showToast(`You have saved ${state.wishlist.size} item(s) in your wishlist!`);
+                }
+            });
+
+            // Mobile filter sidebar toggle
+            document.getElementById('mobileFilterToggleBtn').addEventListener('click', () => {
+                const aside = document.getElementById('filterSidebar');
+                aside.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
